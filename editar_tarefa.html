@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="editTaskModal" style="display:none;">
+        <form id="editTaskForm">
+            <input type="hidden" id="edit_id" name="id">
+            <input type="text" id="edit_titulo" name="titulo" required>
+            <textarea id="edit_descricao" name="descricao"></textarea>
+            <select id="edit_status" name="status">
+                <option value="pendente">Pendente</option>
+                <option value="concluída">Concluída</option>
+            </select>
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+    
+</body>
+</html>

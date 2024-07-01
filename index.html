@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotten Carrots 🥕</title>
+</head>
+<body>
+    <h1>Rotten Carrots 🥕</h1>
+    <form method="POST" action="adicionar_filme.php" class="addFilmForm" id="addFilmForm" enctype="multipart/form-data">
+        <input type="text" id="title" name="title" placeholder="Título" required>
+        <textarea id="description" name="description" placeholder="Descrição"></textarea>
+        <input type="number" id="release_year" name="release_year" placeholder="Ano de Lançamento" required>
+        <input type="text" id="director" name="director" placeholder="Diretor" required>
+        <input type="text" id="genre" name="genre" placeholder="Gênero" required>
+        <input type="number" id="duration" name="duration" placeholder="Duração (minutos)" required>
+        <textarea id="cast" name="cast" placeholder="Elenco"></textarea>
+        <input type="text" id="rating" name="rating" placeholder="Classificação Indicativa">
+        <input type="number" step="0.1" id="score" name="score" placeholder="Avaliação" min="0" max="10">
+        <input type="file" id="poster" name="poster" accept="image/*" required>
+        <button type="submit">Adicionar Filme</button>
+    </form>
+    <div id="filmList"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#addFilmForm').on('submit', function(e){
+                e.preventDefault();
+
+                var formData = new FormData(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'adicionar_filme.php',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response){
+                        alert("Filme adicionado com sucesso!");
+                        listarFilmes();
+                    }
+                });
+            });
+
+            listarFilmes();
+        });
+
+        function listarFilmes() {
+            $.ajax({
+                url: 'listar_filmes.php',
+                method: 'GET',
+                success: function(data) {
+                    $('#filmList').html(data);
+
+                    $('.edit-title, .edit-description').on('click', function() {
+                        var id = $(this).data('id');
+                        var $input = $(this).siblings('input');
+                        $(this).hide();
+                        $input.show().focus();
+                    });
+
+                    $('.edit-title-input, .edit-description-input').on('blur', function() {
+                        var id = $(this).data('id');
+                        var newValue = $(this).val();
+                        var $p = $(this).siblings('p');
+                        $p.text(newValue).show();
+                        $(this).hide();
+                        salvarFilme(id);
+                    });
+                }
+            });
+        }
+
+        function salvarFilme(id) {
+            var title = $('.edit-title-input[data-id="' + id + '"]').val();
+            var description = $('.edit-description-input[data-id="' + id + '"]').val();
+
+            $.ajax({
+                type: 'POST',
+                url: 'editar_filme.php',
+                data: {
+                    id: id,
+                    title: title,
+                    description: description
+                },
+                success: function(response) {
+                    listarFilmes();
+                }
+            });
+        }
+
+        function deletarFilme(id) {
+            if (confirm('Tem certeza que deseja deletar este filme?')) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'deletar_filme.php',
+                    data: { id: id },
+                    success: function(response) {
+                        alert(response);
+                        listarFilmes();
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
