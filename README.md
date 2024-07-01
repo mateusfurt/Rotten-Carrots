@@ -29,18 +29,17 @@ Bem-vindo ao **Rotten Carrots 🥕**! Esta é uma aplicação simples para geren
 
 ```bash
 git clone https://github.com/seu-usuario/catalogo-filmes.git
-cd catalogo-filmes
+cd catalogo-filmes```
 
-2. Configure o Banco de Dados
 Crie um banco de dados MySQL e configure o arquivo db_connection.php com suas credenciais de acesso:
 
-3. Crie a Tabela no Banco de Dados
+### 3. Crie a Tabela no Banco de Dados
 Na pasta **Documentação** está o arquivo de configuração do banco de dados.
 
-4. Execute a Aplicação
+### 4. Execute a Aplicação
 Abra o arquivo index.html no seu navegador para começar a usar o Catálogo de Filmes.
 
-🎨 Estilos
+## 🎨 Estilos
 Os estilos da aplicação estão definidos no arquivo style.css. Eles incluem:
 
 Reset básico: Remove margens e preenchimentos padrões.
